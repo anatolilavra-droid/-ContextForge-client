@@ -11,7 +11,7 @@ Everything — scanning, ignore-rule evaluation, syntax-aware transforms,
 token estimation, and Markdown compilation — runs entirely in the browser.
 Source code is never uploaded anywhere.
 
-**Live demo:** https://anatolilavra-droid.github.io/-contextforge-client/
+**Live demo:** https://anatolilavra-droid.github.io/-ContextForge-client/
 
 ![ContextForge demo](docs/screenshots/demo.gif)
 
@@ -78,5 +78,5 @@ shared domain types and the typed main-thread/worker message protocol.
 
 Pushes to `main` build and deploy the app to GitHub Pages automatically
 (see `.github/workflows/deploy.yml`). The production build sets `base` to
-`/-contextforge-client/` when `GITHUB_PAGES=true` so asset paths resolve
+`/-ContextForge-client/` when `GITHUB_PAGES=true` so asset paths resolve
 correctly under the project-page URL.
