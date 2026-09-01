@@ -8,12 +8,12 @@ import { rustTransformSpec } from "./rust-transform";
 import { createParserForGrammar } from "./tree-sitter-loader";
 
 const GRAMMAR_URLS: Partial<Record<FileLanguage, string>> = {
-  javascript: "/grammars/tree-sitter-javascript.wasm",
-  typescript: "/grammars/tree-sitter-typescript.wasm",
-  tsx: "/grammars/tree-sitter-tsx.wasm",
-  python: "/grammars/tree-sitter-python.wasm",
-  go: "/grammars/tree-sitter-go.wasm",
-  rust: "/grammars/tree-sitter-rust.wasm",
+  javascript: `${import.meta.env.BASE_URL}grammars/tree-sitter-javascript.wasm`,
+  typescript: `${import.meta.env.BASE_URL}grammars/tree-sitter-typescript.wasm`,
+  tsx: `${import.meta.env.BASE_URL}grammars/tree-sitter-tsx.wasm`,
+  python: `${import.meta.env.BASE_URL}grammars/tree-sitter-python.wasm`,
+  go: `${import.meta.env.BASE_URL}grammars/tree-sitter-go.wasm`,
+  rust: `${import.meta.env.BASE_URL}grammars/tree-sitter-rust.wasm`,
 };
 
 const TRANSFORM_SPECS: Partial<Record<FileLanguage, LanguageTransformSpec>> = {

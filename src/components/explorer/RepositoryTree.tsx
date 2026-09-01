@@ -98,7 +98,7 @@ export function RepositoryTree({ tree, files, selectedPath, onSelectFile }: Repo
         </div>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-1.5" role="tree" aria-label={`${tab} files`}>
+      <div className="min-h-0 flex-1 overflow-y-auto p-1.5" role="tree" aria-label={`${tab} files`}>
         {filtered.length === 0 ? (
           <EmptyState
             title={tab === "included" ? "No included files" : "No excluded files"}

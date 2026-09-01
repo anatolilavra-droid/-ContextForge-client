@@ -1,5 +1,7 @@
 # ContextForge
 
+**Author:** [anatolilavra-droid](https://github.com/anatolilavra-droid)
+
 A local-first AI context packager for developers. Import a repository folder
 or files, exclude low-signal noise, optionally compress eligible source
 files with syntax-aware transforms, and export one optimized Markdown
@@ -8,6 +10,20 @@ context bundle for Claude, GPT, Cursor, and similar AI coding tools.
 Everything — scanning, ignore-rule evaluation, syntax-aware transforms,
 token estimation, and Markdown compilation — runs entirely in the browser.
 Source code is never uploaded anywhere.
+
+**Live demo:** https://anatolilavra-droid.github.io/-contextforge-client/
+
+![ContextForge demo](docs/screenshots/demo.gif)
+
+## Screenshots
+
+| Idle | Workspace |
+| --- | --- |
+| ![Idle screen](docs/screenshots/idle.png) | ![Forged bundle output](docs/screenshots/workspace-output.png) |
+
+| File detail (desktop) | File detail (mobile) |
+| --- | --- |
+| ![File detail panel](docs/screenshots/file-detail.png) | ![Mobile file detail](docs/screenshots/mobile-file-detail.png) |
 
 ## Stack
 
@@ -57,3 +73,10 @@ click **Forge Context**.
 
 See `src/app/app-types.ts` and `src/worker/worker-protocol.ts` for the
 shared domain types and the typed main-thread/worker message protocol.
+
+## Deployment
+
+Pushes to `main` build and deploy the app to GitHub Pages automatically
+(see `.github/workflows/deploy.yml`). The production build sets `base` to
+`/-contextforge-client/` when `GITHUB_PAGES=true` so asset paths resolve
+correctly under the project-page URL.
