@@ -15,6 +15,45 @@ Source code is never uploaded anywhere.
 
 ![ContextForge demo](docs/screenshots/demo.gif)
 
+## The problem
+
+Pasting a whole codebase into an AI coding tool doesn't work well:
+
+- **It doesn't fit.** `node_modules`, lock files, build output, images, and
+  generated code eat the context window before your actual source code
+  gets a chance — long before you hit the model's token limit.
+- **It's noisy.** Comments, debug logging, and boilerplate dilute the
+  signal the model needs to reason about your code.
+- **It's manual and error-prone.** Hand-picking which files to paste is
+  tedious, easy to get wrong, and has to be redone every time the repo
+  changes.
+- **It's a privacy question.** Many "paste your repo" tools mean uploading
+  source code to a third-party server first.
+
+## What ContextForge does about it
+
+- **Cuts the noise automatically.** Built-in ignore rules plus your
+  `.gitignore` / `.contextforgeignore` / custom patterns strip dependency
+  folders, build artifacts, binaries, and lock files before anything is
+  packaged — with an explainable reason attached to every excluded file.
+- **Shrinks what's left, safely.** Syntax-aware (not regex) transforms
+  strip comments, remove standalone debug logging, compact JSON, and
+  (optionally) reduce functions to their signatures — so you can trade
+  implementation detail for a repo that actually fits the model's context
+  window, without guessing at percentages.
+- **Shows you the numbers before you commit.** Local GPT-style token
+  counting plus a context-budget simulator tell you whether the forged
+  bundle fits a given model's window, and by how much, before you copy
+  anything.
+- **Never leaves your browser.** Scanning, transforming, and bundling all
+  run locally in a Web Worker. No repo content is ever uploaded anywhere —
+  the privacy badge in the header (`0 files sent`) is a literal fact, not
+  a slogan.
+- **Produces one clean artifact.** The output is a single deterministic
+  Markdown file — repo map, per-file sources, optional excluded-file
+  appendix — ready to paste into Claude, GPT, Cursor, or any other AI
+  coding tool, and easy to regenerate the moment the repo changes.
+
 ## Screenshots
 
 | Idle | Workspace |
