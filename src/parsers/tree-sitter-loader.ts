@@ -5,7 +5,7 @@ let initPromise: Promise<void> | null = null;
 function ensureInitialized(): Promise<void> {
   if (!initPromise) {
     initPromise = Parser.init({
-      locateFile: () => "/tree-sitter.wasm",
+      locateFile: () => `${import.meta.env.BASE_URL}tree-sitter.wasm`,
     });
   }
   return initPromise;

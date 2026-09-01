@@ -186,18 +186,18 @@ export function AppShell() {
   const percentSavedForBar = forge.state.metrics?.percentSaved ?? null;
 
   return (
-    <div className="flex min-h-screen flex-col">
+    <div className="flex h-dvh flex-col overflow-hidden">
       <AppHeader hasRepository={hasRepository} onReset={handleReset} />
 
       {!hasRepository && (
-        <main className="flex flex-1 flex-col items-center justify-center gap-10 px-4 py-16">
+        <main className="flex flex-1 flex-col items-center justify-center gap-10 overflow-y-auto px-4 py-16">
           <WorkspaceHeader />
           <RepositoryDropzone intake={intake} onFilesCollected={handleFilesCollected} />
         </main>
       )}
 
       {hasRepository && !hasStats && (
-        <main className="flex flex-1 items-center justify-center px-4 py-16">
+        <main className="flex flex-1 items-center justify-center overflow-y-auto px-4 py-16">
           <FileIntakeSummary
             phase={forge.state.scanPhase}
             processed={forge.state.scanProcessed}
@@ -209,7 +209,7 @@ export function AppShell() {
 
       {hasRepository && hasStats && (
         <>
-          <main className="flex flex-1 flex-col overflow-hidden lg:flex-row">
+          <main className="flex min-h-0 flex-1 flex-col overflow-hidden lg:flex-row">
             <aside className="flex h-72 shrink-0 flex-col border-b border-border lg:h-auto lg:w-[320px] lg:border-b-0 lg:border-r">
               <RepositoryTree
                 tree={forge.state.tree}
@@ -219,7 +219,7 @@ export function AppShell() {
               />
             </aside>
 
-            <section className="flex flex-1 flex-col overflow-hidden">
+            <section className="flex min-h-0 flex-1 flex-col overflow-hidden">
               {selectedPath ? (
                 <FileDetailsPanel
                   path={selectedPath}
@@ -228,7 +228,7 @@ export function AppShell() {
                   error={forge.state.previewError}
                 />
               ) : (
-                <div className="flex flex-1 flex-col overflow-hidden">
+                <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
                   <div className="flex items-center gap-1 border-b border-border p-2" role="tablist" aria-label="Right panel">
                     <RightTabButton active={rightTab === "settings"} onClick={() => setRightTab("settings")}>
                       Settings
@@ -238,7 +238,7 @@ export function AppShell() {
                     </RightTabButton>
                   </div>
 
-                  <div className="flex-1 space-y-6 overflow-y-auto p-4 sm:p-6">
+                  <div className="min-h-0 flex-1 space-y-6 overflow-y-auto p-4 sm:p-6">
                     {rightTab === "settings" ? (
                       <>
                         <Card title="Forge preset">

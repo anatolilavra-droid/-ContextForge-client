@@ -22,7 +22,7 @@ export function FileDetailsPanel({ path, preview, loading, error }: FileDetailsP
   const percentSaved = preview ? safePercent(tokensSaved, preview.originalTokensGpt) : 0;
 
   return (
-    <div className="flex h-full flex-col">
+    <div className="flex h-full min-h-0 flex-col">
       <div className="border-b border-border p-4">
         <p className="cf-mono truncate text-sm text-text-primary" title={path}>
           {path}
@@ -45,7 +45,7 @@ export function FileDetailsPanel({ path, preview, loading, error }: FileDetailsP
       )}
 
       {!loading && !error && preview && (
-        <div className="flex flex-1 flex-col overflow-hidden">
+        <div className="flex min-h-0 flex-1 flex-col overflow-hidden">
           <div className="grid grid-cols-2 gap-3 border-b border-border p-4 sm:grid-cols-4">
             <Metric label="Original" value={formatBytes(originalBytes)} />
             <Metric label="Forged" value={formatBytes(forgedBytes)} />
@@ -104,7 +104,7 @@ export function FileDetailsPanel({ path, preview, loading, error }: FileDetailsP
             ))}
           </div>
 
-          <div className="flex-1 overflow-auto">
+          <div className="min-h-0 flex-1 overflow-auto">
             {viewMode === "diff" ? (
               <DiffSummary preview={preview} />
             ) : (

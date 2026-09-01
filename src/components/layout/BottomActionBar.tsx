@@ -30,7 +30,7 @@ export function BottomActionBar({
   onDownload,
 }: BottomActionBarProps) {
   return (
-    <div className="sticky bottom-0 z-30 border-t border-border bg-surface/95 backdrop-blur">
+    <div className="sticky bottom-0 z-30 shrink-0 border-t border-border bg-surface/95 backdrop-blur">
       <div className="mx-auto flex max-w-[1600px] flex-col gap-3 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:px-6">
         <div className="flex flex-wrap items-center gap-x-5 gap-y-1.5 text-xs">
           <span className="cf-mono text-text-secondary">
