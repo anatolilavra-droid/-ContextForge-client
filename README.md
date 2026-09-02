@@ -54,6 +54,25 @@ Pasting a whole codebase into an AI coding tool doesn't work well:
   appendix — ready to paste into Claude, GPT, Cursor, or any other AI
   coding tool, and easy to regenerate the moment the repo changes.
 
+## Insights tab
+
+Beyond forging a bundle, the **Insights** tab turns the same scan into three
+things worth checking before (and after) you hand a repo to an AI tool —
+all local, all deterministic, nothing sent anywhere:
+
+- **Context quality score** — scores the current scan on noise ratio, entry
+  point detection, config/test/type/README coverage, and gives a concrete
+  recommendation for anything that's missing.
+- **AGENTS.md / CLAUDE.md generator** — a template-based draft built only
+  from what the scan actually found (languages, entry points, layout, test
+  locations). Every fact it can't infer is left as an explicit `TODO`
+  instead of guessed — see `src/lib/agents-md-generator.ts`.
+- **Change summarizer** — paste a `git diff` or `git diff --stat` and get it
+  grouped by directory with per-file churn and a breadth warning when a
+  change touches an unusually wide spread of directories. Useful as a quick
+  self-review before shipping an AI-generated diff. See
+  `src/lib/diff-summary.ts`.
+
 ## Screenshots
 
 | Idle | Workspace |
@@ -88,6 +107,7 @@ click **Forge Context**.
 - `npm run build` — type-check and build for production
 - `npm run preview` — preview the production build locally
 - `npm run lint` — run oxlint
+- `npm test` — run the unit test suite (vitest)
 
 ## How it works
 

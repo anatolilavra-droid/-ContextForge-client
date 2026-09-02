@@ -7,6 +7,9 @@ import { BottomActionBar } from "../components/layout/BottomActionBar";
 import { WorkspaceHeader } from "../components/layout/WorkspaceHeader";
 import { FileDetailsPanel } from "../components/explorer/FileDetailsPanel";
 import { RepositoryTree } from "../components/explorer/RepositoryTree";
+import { AgentsMdGeneratorCard } from "../components/insights/AgentsMdGeneratorCard";
+import { ChangeSummaryCard } from "../components/insights/ChangeSummaryCard";
+import { QualityScoreCard } from "../components/insights/QualityScoreCard";
 import { BundleMetrics } from "../components/output/BundleMetrics";
 import { BundlePreview } from "../components/output/BundlePreview";
 import { CompressionInspector } from "../components/output/CompressionInspector";
@@ -26,7 +29,7 @@ import { copyToClipboard } from "../lib/clipboard";
 import { downloadMarkdown } from "../lib/download";
 import type { IngestFileEntry } from "../worker/worker-protocol";
 
-type RightTab = "settings" | "output";
+type RightTab = "settings" | "output" | "insights";
 
 interface ToastItem {
   id: string;
@@ -236,6 +239,9 @@ export function AppShell() {
                     <RightTabButton active={rightTab === "output"} onClick={() => setRightTab("output")}>
                       Output
                     </RightTabButton>
+                    <RightTabButton active={rightTab === "insights"} onClick={() => setRightTab("insights")}>
+                      Insights
+                    </RightTabButton>
                   </div>
 
                   <div className="min-h-0 flex-1 space-y-6 overflow-y-auto p-4 sm:p-6">
@@ -269,7 +275,7 @@ export function AppShell() {
                           />
                         </Card>
                       </>
-                    ) : (
+                    ) : rightTab === "output" ? (
                       <>
                         {forge.state.isForging && (
                           <ProcessingProgress
@@ -294,6 +300,26 @@ export function AppShell() {
                         </Card>
                         <Card title="Per-file compression">
                           <CompressionInspector fileResults={fileResultsArray} onSelectFile={setSelectedPath} />
+                        </Card>
+                      </>
+                    ) : (
+                      <>
+                        {forge.state.stats && (
+                          <Card title="Context quality score">
+                            <QualityScoreCard stats={forge.state.stats} files={forge.state.files} />
+                          </Card>
+                        )}
+                        <Card title="AGENTS.md generator">
+                          {forge.state.stats && (
+                            <AgentsMdGeneratorCard
+                              stats={forge.state.stats}
+                              files={forge.state.files}
+                              onNotify={pushToast}
+                            />
+                          )}
+                        </Card>
+                        <Card title="Change summarizer">
+                          <ChangeSummaryCard />
                         </Card>
                       </>
                     )}
