@@ -54,7 +54,12 @@ export function classifyAndFilter(files: IngestedFile[], ctx: IgnoreContext): Re
     } else if (f.isBinary) {
       reason = { code: "binary-detected", detail: "Binary content detected while sampling the file." };
     } else {
-      const builtinMatch = matchIgnore(f.path, BUILTIN_COMPILED);
+      // Lock files and source maps are also matched by built-in patterns
+      // ("*.lock", "*.map"), but their inclusion is meant to be governed by
+      // the "Include lock files" / "Enable source-map exclusion" toggles
+      // below -- skip the generic built-in match for them here rather than
+      // have it silently override the toggle regardless of its value.
+      const builtinMatch = isLock || isMap ? null : matchIgnore(f.path, BUILTIN_COMPILED);
       if (builtinMatch && !builtinMatch.negate) {
         reason = { code: "builtin-ignore", detail: `Matches built-in ignore pattern "${builtinMatch.pattern}".` };
       }
