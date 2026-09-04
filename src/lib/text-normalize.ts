@@ -10,7 +10,9 @@ export function trimTrailingWhitespace(source: string): string {
 }
 
 export function collapseBlankLines(source: string, maxConsecutive: number): string {
-  if (maxConsecutive < 1) maxConsecutive = 1;
+  // 0 is a valid, intentional budget (Maximum compression collapses blank
+  // lines away entirely) -- only clamp a truly invalid negative value.
+  if (maxConsecutive < 0) maxConsecutive = 0;
   const lines = source.split("\n");
   const output: string[] = [];
   let blankRun = 0;

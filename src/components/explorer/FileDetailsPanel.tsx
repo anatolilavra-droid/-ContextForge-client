@@ -2,6 +2,7 @@ import { AlertTriangle } from "lucide-react";
 import { useMemo, useState } from "react";
 import type { FilePreviewData } from "../../app/app-types";
 import { formatBytes, formatCount, formatPercent, safePercent } from "../../lib/file-size";
+import { diffLineStats } from "../../lib/line-diff";
 import { Skeleton } from "../ui/Skeleton";
 
 type ViewMode = "forged" | "original" | "diff";
@@ -154,9 +155,13 @@ function SourceView({ text }: { text: string }) {
 }
 
 function DiffSummary({ preview }: { preview: FilePreviewData }) {
-  const originalLines = preview.original.split("\n").length;
-  const forgedLines = preview.forged.split("\n").length;
+  const originalLines = preview.original.length === 0 ? 0 : preview.original.split("\n").length;
+  const forgedLines = preview.forged.length === 0 ? 0 : preview.forged.split("\n").length;
   const lineDelta = forgedLines - originalLines;
+
+  // Computed lazily: this component only mounts when the "Diff summary" tab
+  // is actually selected, so the O(n*m) LCS diff never runs on every render.
+  const diff = useMemo(() => diffLineStats(preview.original, preview.forged), [preview.original, preview.forged]);
 
   return (
     <div className="space-y-3 p-4 text-sm">
@@ -166,6 +171,19 @@ function DiffSummary({ preview }: { preview: FilePreviewData }) {
           {formatCount(originalLines)} → {formatCount(forgedLines)} lines ({lineDelta > 0 ? "+" : ""}
           {formatCount(lineDelta)})
         </p>
+      </div>
+      <div className="cf-panel p-3.5">
+        <p className="cf-label mb-2">Line diff</p>
+        <p className="cf-mono">
+          <span className="text-success">+{formatCount(diff.added)}</span>{" "}
+          <span className="text-danger">-{formatCount(diff.removed)}</span>{" "}
+          <span className="text-text-muted">{formatCount(diff.unchanged)} unchanged</span>
+        </p>
+        {diff.approximate && (
+          <p className="mt-1.5 text-xs text-text-muted">
+            File is large; this is an approximate diff (line order isn't accounted for).
+          </p>
+        )}
       </div>
       <div className="cf-panel p-3.5">
         <p className="cf-label mb-2">Transformations applied</p>

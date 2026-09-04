@@ -7,9 +7,13 @@ export interface CompiledIgnorePattern {
 const REGEX_SPECIAL = new Set(["." , "+", "^", "$", "{", "}", "(", ")", "|", "[", "]", "\\"]);
 
 function globToRegExp(pattern: string): RegExp {
+  // A pattern is root-anchored if it contains a "/" anywhere, including a
+  // leading one (gitignore's explicit root-anchor marker) -- check this
+  // before stripping that leading slash below, or "/dist" would wrongly
+  // collapse to the unanchored pattern "dist" and match at any depth.
+  const anchored = pattern.includes("/");
   let p = pattern;
   if (p.startsWith("/")) p = p.slice(1);
-  const anchored = p.includes("/");
 
   let body = "";
   for (let i = 0; i < p.length; i += 1) {
